@@ -28,6 +28,10 @@ need to know to make your own page better.
 ==================================== SNIP ====================================
 <r:search:form label="Search for:"/>
 
+<r:search:initial>
+  <strong>Enter a phrase above to search this website.</strong>
+</r:search:initial>
+
 <r:search:empty>
   <strong>I couldn't find anything named "<r:search:query/>".</strong>
 </r:search:empty>

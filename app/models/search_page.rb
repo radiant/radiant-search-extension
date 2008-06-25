@@ -20,9 +20,16 @@ class SearchPage < Page
     CGI.escapeHTML(query)
   end
   
-  desc %{    Renders the contained block if no results were returned.}
+  desc %{   Renders the contained block when query is blank.}
+  tag 'search:initial' do |tag|
+    if query.empty?
+      tag.expand
+    end
+  end
+ 
+  desc %{   Renders the contained block if no results were returned.}
   tag 'search:empty' do |tag|
-    if query_result.blank?
+    if query_result.blank? && !query.empty?
       tag.expand
     end
   end
