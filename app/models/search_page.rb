@@ -51,7 +51,12 @@ class SearchPage < Page
       end
     end
   end
-  
+
+  desc %{    Quantity of search results fetched.}
+  tag 'search:results:quantity' do |tag|
+    query_result.size unless query_result.blank?
+  end
+
   desc %{    <r:truncate_and_strip [length="100"] />
     Truncates and strips all HTML tags from the content of the contained block.  
     Useful for displaying a snippet of a found page.  The optional `length' attribute
