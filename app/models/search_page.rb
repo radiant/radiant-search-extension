@@ -54,7 +54,7 @@ class SearchPage < Page
 
   desc %{    Quantity of search results fetched.}
   tag 'search:results:quantity' do |tag|
-    query_result.size unless query_result.blank?
+    query_result.blank? ? 0 : query_result.size
   end
 
   desc %{    <r:truncate_and_strip [length="100"] />
