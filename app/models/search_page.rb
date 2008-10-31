@@ -11,7 +11,7 @@ class SearchPage < Page
     Renders a search form, with the optional label.}
   tag 'search:form' do |tag|
     label = tag.attr['label'].nil? ? "Search:" : tag.attr['label']
-    content = %{<form action="#{self.url.chop}" method="get" id="search_form"><p><label for="q">#{label}</label> <input type="text" id="q" name="q" value="" size="15" /></p></form>}
+    content = %{<form action="#{self.url.chop}" method="get" id="search_form"><p><label for="q">#{label}</label> <input type="text" id="q" name="q" value="#{query}" size="15" /></p></form>}
     content << "\n"
   end
    
