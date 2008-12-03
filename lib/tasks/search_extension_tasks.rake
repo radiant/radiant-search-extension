@@ -3,8 +3,8 @@ namespace :radiant do
     namespace :search do
       
       desc "Runs the migration of the Search extension"
-      task :migrate do
-        require 'extension_migrator'
+      task :migrate => :environment do
+				require 'radiant/extension_migrator'
         SearchExtension.migrator.migrate
       end
     
