@@ -75,7 +75,7 @@ class SearchPage < Page
     unless (@query = q.to_s.strip).blank?
       tokens = query.split.collect { |c| "%#{c.downcase}%"}
       pages = Page.find(:all, :include => [ :parts ],
-          :conditions => [(["((LOWER(content) LIKE ?) OR (LOWER(title) LIKE ?))"] * tokens.size).join(" AND "), 
+          :conditions => [(["((LOWER(page_parts.content) LIKE ?) OR (LOWER(title) LIKE ?))"] * tokens.size).join(" AND "), 
                          *tokens.collect { |token| [token] * 2 }.flatten])
       @query_result = pages.delete_if { |p| !p.published? }
     end
