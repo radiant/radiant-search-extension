@@ -47,9 +47,29 @@ class SearchPage < Page
   tag 'truncate_and_strip' do |tag|
     tag.attr['length'] ||= 100
     length = tag.attr['length'].to_i
-    helper = ActionView::Base.new
     helper.truncate(helper.strip_tags(tag.expand).gsub(/\s+/," "), length)
   end
+  
+  desc %{    <r:search:highlight [length="100"] />
+    Highlights the search keywords from the content of the contained block.
+    Strips all HTML tags and truncates the relevant part.      
+    Useful for displaying a snippet of a found page.  The optional `length' attribute
+    specifies how many characters to truncate to.}
+  tag 'highlight' do |tag|    
+    length = (tag.attr['length'] ||= 100).to_i
+    content = helper.strip_tags(tag.expand).gsub(/\s+/," ")
+    match  = content.match(query.split(' ').first)
+    if match
+      start = match.begin(0)
+      begining = (start - length/2)
+      begining = 0 if begining < 0
+      chars = content.chars
+      relevant_content = chars.length > length ? (chars[(begining)...(begining + length)]).to_s + "..." : content
+      helper.highlight(relevant_content, query.split)      
+    else
+      helper.truncate(content, length)
+    end    
+  end  
   
   #### "Behavior" methods ####
   def cache?
@@ -73,6 +93,10 @@ class SearchPage < Page
     else
       render_page_part(:body)
     end
+  end
+  
+  def helper
+    @helper ||= ActionView::Base.new
   end
   
 end
