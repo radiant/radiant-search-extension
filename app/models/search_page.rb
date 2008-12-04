@@ -2,18 +2,6 @@ class SearchPage < Page
   description "Provides tags and behavior to support searching Radiant.  Based on Oliver Baltzer's search_behavior."
   attr_accessor :query_result, :query
   #### Tags ####
-  desc %{    The namespace for all search tags.}
-  tag 'search' do |tag|
-    tag.expand
-  end
-
-  desc %{    <r:search:form [label="Search:"] />
-    Renders a search form, with the optional label.}
-  tag 'search:form' do |tag|
-    label = tag.attr['label'].nil? ? "Search:" : tag.attr['label']
-    content = %{<form action="#{self.url.chop}" method="get" id="search_form"><p><label for="q">#{label}</label> <input type="text" id="q" name="q" value="#{query}" size="15" /></p></form>}
-    content << "\n"
-  end
    
   desc %{    Renders the passed query.}
   tag 'search:query' do |tag|
@@ -87,4 +75,23 @@ class SearchPage < Page
     end
   end
   
+end
+
+class Page
+  #### Tags ####
+  desc %{    The namespace for all search tags.}
+  tag 'search' do |tag|
+    tag.expand
+  end
+
+  desc %{    <r:search:form [label="Search:"] [url="search"] />
+    Renders a search form, with the optional label and url.}
+  tag 'search:form' do |tag|
+    label = tag.attr['label'].nil? ? "" : "<label for=\"q\">#{tag.attr['label']}</label> "
+    submit = "<input value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
+    url = tag.attr['url'].nil? ? self.url.chop : tag.attr['url']
+    content = %{<form action="#{url}" method="get" id="search_form"><p>#{label}<input type="text" id="q" name="q" value="#{query ||= ""}" size="15" /> #{submit}</p></form>}
+    content << "\n"
+  end
+
 end
