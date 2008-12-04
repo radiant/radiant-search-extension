@@ -114,7 +114,8 @@ class Page
     label = tag.attr['label'].nil? ? "" : "<label for=\"q\">#{tag.attr['label']}</label> "
     submit = "<input value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
     url = tag.attr['url'].nil? ? self.url.chop : tag.attr['url']
-    content = %{<form action="#{url}" method="get" id="search_form"><p>#{label}<input type="text" id="q" name="q" value="#{query ||= ""}" size="15" /> #{submit}</p></form>}
+    @query ||= ""    
+    content = %{<form action="#{url}" method="get" id="search_form"><p>#{label}<input type="text" id="q" name="q" value="#{@query}" size="15" /> #{submit}</p></form>}
     content << "\n"
   end
 

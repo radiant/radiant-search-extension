@@ -41,7 +41,8 @@ need to know to make your own page better.
 
   <ul>
   <r:search:results:each>
-    <li><r:link/> - <r:author/> - <r:date/></li>
+  <li><r:link/><br/>
+      <r:search:highlight><r:content/></r:search:highlight></li>
   </r:search:results:each>
   </ul>
 </r:search:results>
