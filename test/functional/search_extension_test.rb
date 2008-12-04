@@ -38,5 +38,11 @@ class SearchTagsTest < Test::Unit::TestCase
     assert_renders form, '<r:search:form label="Search:" />'
   end  
   
+  def test_search_with_submit
+    @page = pages(:search)
+    form = "<form action=\"/search\" method=\"get\" id=\"search_form\"><p><input type=\"text\" id=\"q\" name=\"q\" value=\"\" size=\"15\" /> <input value=\"Go!\" type=\"submit\" /></p></form>\n"
+    assert_renders form, '<r:search:form submit="Go!" />'
+  end  
+  
 end
 
