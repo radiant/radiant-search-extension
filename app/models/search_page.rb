@@ -84,8 +84,8 @@ class Page
     tag.expand
   end
 
-  desc %{    <r:search:form [label="Search:"] [url="search"] />
-    Renders a search form, with the optional label and url.}
+  desc %{    <r:search:form [label=""] [url="search"] [submit="Search"] />
+    Renders a search form, with the optional label, submit text and url.}
   tag 'search:form' do |tag|
     label = tag.attr['label'].nil? ? "" : "<label for=\"q\">#{tag.attr['label']}</label> "
     submit = "<input value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
