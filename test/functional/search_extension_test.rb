@@ -22,32 +22,32 @@ class SearchTagsTest < Test::Unit::TestCase
     
   def test_search_form_works_for_regular_page
     @page = pages(:documentation)
-    form = "<form action=\"/documentation\" method=\"get\" id=\"search_form\"><p><input type=\"text\" id=\"q\" name=\"q\" value=\"\" size=\"15\" /> <input value=\"Search\" type=\"submit\" /></p></form>\n"
+    form = "<form action=\"/documentation\" method=\"get\" id=\"search_form\"><p><input type=\"text\" id=\"q\" name=\"q\" value=\"\" size=\"15\" alt=\"search\"/> <input value=\"Search\" type=\"submit\" /></p></form>\n"
     assert_renders form,'<r:search:form />'
   end
   
   def test_search_form_with_query
     @page = pages(:search)
     @page.query = 'test'
-    form = "<form action=\"/search\" method=\"get\" id=\"search_form\"><p><input type=\"text\" id=\"q\" name=\"q\" value=\"test\" size=\"15\" /> <input value=\"Search\" type=\"submit\" /></p></form>\n"
+    form = "<form action=\"/search\" method=\"get\" id=\"search_form\"><p><input type=\"text\" id=\"q\" name=\"q\" value=\"test\" size=\"15\" alt=\"search\"/> <input value=\"Search\" type=\"submit\" /></p></form>\n"
     assert_renders form, '<r:search:form />'
   end  
   
   def test_search_form_with_url
     @page = pages(:search)
-    form = "<form action=\"/other_url\" method=\"get\" id=\"search_form\"><p><input type=\"text\" id=\"q\" name=\"q\" value=\"\" size=\"15\" /> <input value=\"Search\" type=\"submit\" /></p></form>\n"
+    form = "<form action=\"/other_url\" method=\"get\" id=\"search_form\"><p><input type=\"text\" id=\"q\" name=\"q\" value=\"\" size=\"15\" alt=\"search\"/> <input value=\"Search\" type=\"submit\" /></p></form>\n"
     assert_renders form, '<r:search:form url="/other_url" />'
   end
   
   def test_search_form_with_label
     @page = pages(:search)
-    form = "<form action=\"/search\" method=\"get\" id=\"search_form\"><p><label for=\"q\">Search:</label> <input type=\"text\" id=\"q\" name=\"q\" value=\"\" size=\"15\" /> <input value=\"Search\" type=\"submit\" /></p></form>\n"
+    form = "<form action=\"/search\" method=\"get\" id=\"search_form\"><p><label for=\"q\">Search:</label> <input type=\"text\" id=\"q\" name=\"q\" value=\"\" size=\"15\" alt=\"search\"/> <input value=\"Search\" type=\"submit\" /></p></form>\n"
     assert_renders form, '<r:search:form label="Search:" />'
   end  
   
   def test_search_form_with_submit
     @page = pages(:search)
-    form = "<form action=\"/search\" method=\"get\" id=\"search_form\"><p><input type=\"text\" id=\"q\" name=\"q\" value=\"\" size=\"15\" /> <input value=\"Go!\" type=\"submit\" /></p></form>\n"
+    form = "<form action=\"/search\" method=\"get\" id=\"search_form\"><p><input type=\"text\" id=\"q\" name=\"q\" value=\"\" size=\"15\" alt=\"search\"/> <input value=\"Go!\" type=\"submit\" /></p></form>\n"
     assert_renders form, '<r:search:form submit="Go!" />'
   end  
   
