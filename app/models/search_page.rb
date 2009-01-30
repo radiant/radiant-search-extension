@@ -72,10 +72,16 @@ class SearchPage < Page
     @query_result = []
     @query = ""
     q = @request.parameters[:q]
+    case Page.connection.adapter_name.downcase
+    when 'postgresql'
+      sql_content_check = "((lower(page_parts.content) LIKE ?) OR (lower(title) LIKE ?))"
+    when 'mysql'
+      sql_content_check = "((LOWER(page_parts.content) LIKE ?) OR (LOWER(title) LIKE ?))"
+    end
     unless (@query = q.to_s.strip).blank?
       tokens = query.split.collect { |c| "%#{c.downcase}%"}
       pages = Page.find(:all, :include => [ :parts ],
-          :conditions => [(["((LOWER(page_parts.content) LIKE ?) OR (LOWER(title) LIKE ?))"] * tokens.size).join(" AND "), 
+          :conditions => [(["#{sql_content_check}"] * tokens.size).join(" AND "), 
                          *tokens.collect { |token| [token] * 2 }.flatten])
       @query_result = pages.delete_if { |p| !p.published? }
     end
