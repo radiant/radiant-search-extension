@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+body:
+  id: 1
+  name: body
+  content: This is the body portion of the Ruby home page.
+  page_id: 1
+extended:
+  id: 2
+  name: extended
+  content: This is an extended portion of the Ruby home page.
+  page_id: 1
+summary:
+  id: 3
+  name: summary
+  content: This is a summary.
+  page_id: 1
+sidebar:
+  id: 4
+  name: sidebar
+  content: <r:title /> sidebar.
+  page_id: 1
+documentation_body:
+  id: 5
+  name: body
+  content: This is the documentation section.
+  page_id: 2
+search_body:
+  id: 6
+  name: body
+  content: This is the search section.
+  page_id: 3
