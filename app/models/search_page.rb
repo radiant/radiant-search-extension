@@ -93,7 +93,7 @@ class SearchPage < Page
     end
     unless (@query = q.to_s.strip).blank?
       tokens = query.split.collect { |c| "%#{c.downcase}%"}
-      pages = Page.find(:all, :include => [ :parts ],
+      pages = Page.find(:all, :order => 'published_at DESC', :include => [ :parts ],
           :conditions => [(["#{sql_content_check}"] * tokens.size).join(" AND "), 
                          *tokens.collect { |token| [token] * 2 }.flatten])
       @query_result = pages.delete_if { |p| !p.published? }
