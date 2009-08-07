@@ -88,7 +88,7 @@ class SearchPage < Page
     case Page.connection.adapter_name.downcase
     when 'postgresql'
       sql_content_check = "((lower(page_parts.content) LIKE ?) OR (lower(title) LIKE ?))"
-    when 'mysql'
+    else
       sql_content_check = "((LOWER(page_parts.content) LIKE ?) OR (LOWER(title) LIKE ?))"
     end
     unless (@query = q.to_s.strip).blank?
