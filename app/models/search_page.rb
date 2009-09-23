@@ -119,14 +119,18 @@ class Page
     tag.expand
   end
 
-  desc %{    <r:search:form [label=""] [url="search"] [submit="Search"] />
-    Renders a search form, with the optional label, submit text and url.}
+  desc %{    <r:search:form [label=""] [boxClass="CSS class name"] [buttonClass="CSS class name"] [url="search"] [submit="Search"] />
+    Renders a search form, with the optional label, submit text and url.
+    Optionally allows setting the CSS class of the button and text inputs
+    for formatting.}
   tag 'search:form' do |tag|
     label = tag.attr['label'].nil? ? "" : "<label for=\"q\">#{tag.attr['label']}</label> "
-    submit = "<input value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
+    buttonClass = tag.attr['buttonClass'].nil? ? "" : " class=\"#{tag.attr['buttonClass']}\""
+    boxClass = tag.attr['boxClass'].nil? ? "" : " class=\"#{tag.attr['boxClass']}\""
+    submit = "<input#{buttonClass} value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
     url = tag.attr['url'].nil? ? self.url.chop : tag.attr['url']
     @query ||= ""    
-    content = %{<form action="#{url}" method="get" id="search_form"><p>#{label}<input type="text" id="q" name="q" value="#{@query}" size="15" alt=\"search\"/> #{submit}</p></form>}
+    content = %{<form action="#{url}" method="get" id="search_form"><p>#{label}<input#{boxClass} type="text" id="q" name="q" value="#{@query}" size="15" alt=\"search\"/> #{submit}</p></form>}
     content << "\n"
   end
 
