@@ -68,7 +68,7 @@ class SearchPage < Page
       start = match.begin(0)
       begining = (start - length/2)
       begining = 0 if begining < 0
-      chars = content.chars
+      chars = content.mb_chars
       relevant_content = chars.length > length ? (chars[(begining)...(begining + length)]).to_s + "..." : content
       helper.highlight(relevant_content, query.split)      
     else
