@@ -35,7 +35,7 @@ class SearchPage < Page
     returning String.new do |content|
       query_result.each do |page|
         tag.locals.page = page
-        content << tag.expand
+        content << tag.expand unless page == tag.globals.page
       end
     end
   end
