@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class SearchExtensionTest < Test::Unit::TestCase
+class SearchExtensionTest < ActiveSupport::TestCase
   fixtures :pages
   
   def setup
@@ -16,7 +16,7 @@ class SearchExtensionTest < Test::Unit::TestCase
   
 end
 
-class SearchTagsTest < Test::Unit::TestCase
+class SearchTagsTest < ActiveSupport::TestCase
   test_helper :pages, :render
   fixtures :pages
     
