@@ -52,7 +52,7 @@ class SearchPage < Page
   tag 'truncate_and_strip' do |tag|
     tag.attr['length'] ||= 100
     length = tag.attr['length'].to_i
-    helper.truncate(helper.strip_tags(tag.expand).gsub(/\s+/," "), length)
+    helper.truncate(helper.strip_tags(tag.expand).gsub(/\s+/," "), :length => length)
   end
   
   desc %{    <r:search:highlight [length="100"] />
@@ -85,6 +85,7 @@ class SearchPage < Page
     @query_result = []
     @query = ""
     q = @request.parameters[:q]
+    exclude_pages = (@request.parameters[:exclude_pages] || '').split(',')
     case Page.connection.adapter_name.downcase
     when 'postgresql'
       sql_content_check = "((lower(page_parts.content) LIKE ?) OR (lower(title) LIKE ?))"
@@ -96,13 +97,14 @@ class SearchPage < Page
       pages = Page.find(:all, :order => 'published_at DESC', :include => [ :parts ],
           :conditions => [(["#{sql_content_check}"] * tokens.size).join(" AND "), 
                          *tokens.collect { |token| [token] * 2 }.flatten])
-      @query_result = pages.delete_if { |p| !p.published? }
+      @query_result = pages.delete_if { |p| !p.published? ||
+          exclude_pages.include?(p.url)}
     end
     lazy_initialize_parser_and_context
     if layout
       parse_object(layout)
     else
-      render_page_part(:body)
+      render_part(:body)
     end
   end
   
@@ -125,8 +127,9 @@ class Page
     label = tag.attr['label'].nil? ? "" : "<label for=\"q\">#{tag.attr['label']}</label> "
     submit = "<input value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
     url = tag.attr['url'].nil? ? self.url.chop : tag.attr['url']
+    exclude_pages_input = %{<input type="hidden" name="exclude_pages" value="#{tag.attr['exclude_pages']}" />}
     @query ||= ""    
-    content = %{<form action="#{url}" method="get" id="search_form"><p>#{label}<input type="text" id="q" name="q" value="#{CGI.escapeHTML(@query)}" size="15" alt=\"search\"/> #{submit}</p></form>}
+    content = %{<form action="#{url}" method="get" id="search_form">my test #{exclude_pages_input}<p>#{label}<input type="text" id="q" name="q" value="#{CGI.escapeHTML(@query)}" size="15" alt=\"search\"/> #{submit}</p></form>}
     content << "\n"
   end
 
