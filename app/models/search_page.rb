@@ -121,8 +121,10 @@ class Page
     tag.expand
   end
 
-  desc %{    <r:search:form [label=""] [url="search"] [submit="Search"] />
-    Renders a search form, with the optional label, submit text and url.}
+  desc %{    <r:search:form [label=""] [url="search"] [submit="Search"] [exclude_pages=""] />
+    Renders a search form, with the optional label, submit text and url.
+    
+    If you need to exclude some pages from the search results you can specify their URLs in exclude_pages attribute separated by comma. Don't forget trailing slash }
   tag 'search:form' do |tag|
     label = tag.attr['label'].nil? ? "" : "<label for=\"q\">#{tag.attr['label']}</label> "
     submit = "<input value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
