@@ -12,6 +12,10 @@ describe SearchPage do
     it "should add exclude_pages parameter in hidden input" do
       pages(:search).should render('<r:search:form exclude_pages="/page/" />').matching(%r{<input type="hidden" name="exclude_pages" value="/page/"})
     end
+
+    it "should escape value of exclude_pages field" do
+      pages(:search).should render('<r:search:form exclude_pages=">" />').matching(%r{name="exclude_pages" value="&gt;"})
+    end
   end
 
   describe "render" do

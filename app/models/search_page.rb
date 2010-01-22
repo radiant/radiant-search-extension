@@ -129,7 +129,7 @@ class Page
     label = tag.attr['label'].nil? ? "" : "<label for=\"q\">#{tag.attr['label']}</label> "
     submit = "<input value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
     url = tag.attr['url'].nil? ? self.url.chop : tag.attr['url']
-    exclude_pages_input = %{<input type="hidden" name="exclude_pages" value="#{tag.attr['exclude_pages']}" />}
+    exclude_pages_input = %{<input type="hidden" name="exclude_pages" value="#{CGI.escapeHTML(tag.attr['exclude_pages'])}" />}
     @query ||= ""    
     content = %{<form action="#{url}" method="get" id="search_form">my test #{exclude_pages_input}<p>#{label}<input type="text" id="q" name="q" value="#{CGI.escapeHTML(@query)}" size="15" alt=\"search\"/> #{submit}</p></form>}
     content << "\n"
