@@ -131,17 +131,26 @@ class Page
     tag.expand
   end
 
-  desc %{    <r:search:form [label=""] [url="search"] [submit="Search"] [exclude_pages=""] />
-    Renders a search form, with the optional label, submit text and url.
+  desc %{
+Renders a search form, with the optional label, submit text and url.
     
-    If you need to exclude some pages from the search results you can specify their URLs in exclude_pages attribute separated by comma. Don't forget trailing slash }
+If you need to exclude some pages from the search results you can specify their URLs in exclude_pages attribute separated by comma. Don't forget trailing slash 
+
+Optionally allows setting the CSS class of the button and text inputs for formatting.
+
+<pre><code><r:search:form [label=""] [url="/search"] 
+  [submit="Search"] [exclude_pages=""] 
+  [box_class="CSS class name"] 
+  [button_class="CSS class name"] /></code></pre>}
   tag 'search:form' do |tag|
     label = tag.attr['label'].nil? ? "" : "<label for=\"q\">#{tag.attr['label']}</label> "
-    submit = "<input value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
+    button_class = tag.attr['button_class'].nil? ? "" : " class=\"#{tag.attr['button_class']}\""
+    box_class = tag.attr['box_class'].nil? ? "" : " class=\"#{tag.attr['box_class']}\""
+    submit = "<input#{button_class} value=\"#{tag.attr['submit'] || "Search"}\" type=\"submit\" />"
     url = tag.attr['url'].nil? ? self.url.chop : tag.attr['url']
     exclude_pages_input = %{<input type="hidden" name="exclude_pages" value="#{CGI.escapeHTML(tag.attr['exclude_pages'])}" />}
-    @query ||= ""    
-    content = %{<form action="#{url}" method="get" id="search_form">#{exclude_pages_input}<p>#{label}<input type="text" id="q" name="q" value="#{CGI.escapeHTML(@query)}" size="15" alt=\"search\"/> #{submit}</p></form>}
+    @query ||= ""
+    content = %{<form action="#{url}" method="get" id="search_form">#{exclude_pages_input}<p>#{label}<input type="text"#{box_class} id="q" name="q" value="#{CGI.escapeHTML(@query)}" size="15" alt="search"/> #{submit}</p></form>}
     content << "\n"
   end
 
