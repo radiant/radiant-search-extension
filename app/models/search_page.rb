@@ -25,7 +25,17 @@ class SearchPage < Page
   desc %{    Renders the contained block if results were returned.}
   tag 'search:results' do |tag|
     unless query_result.blank?
-      tag.expand
+      if tag.double?
+        tag.expand
+      else
+        content = ''
+        query_result.each do |page|
+          content << "<p><a href='#{page.url}'>#{page.title}</a><br />"
+          content << helper.truncate(helper.strip_tags(page.parts.first.content).gsub(/\s+/," "), 100)	
+          content << "</p>"
+        end
+        content
+      end
     end
   end
 
@@ -88,7 +98,7 @@ class SearchPage < Page
     exclude_pages = (@request.parameters[:exclude_pages] || '').split(',')
     case Page.connection.adapter_name.downcase
     when 'postgresql'
-      sql_content_check = "((lower(page_parts.content) LIKE ?) OR (lower(title) LIKE ?))"
+      sql_content_check = "((lower(page_parts.content) ILIKE ?) OR (lower(title) ILIKE ?))"
     else
       sql_content_check = "((LOWER(page_parts.content) LIKE ?) OR (LOWER(title) LIKE ?))"
     end
