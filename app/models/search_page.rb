@@ -73,7 +73,7 @@ class SearchPage < Page
   tag 'highlight' do |tag|    
     length = (tag.attr['length'] ||= 100).to_i
     content = helper.strip_tags(tag.expand).gsub(/\s+/," ")
-    match  = content.match(query.split(' ').first)
+    match  = content.match(query.split(' ').first.downcase)
     if match
       start = match.begin(0)
       begining = (start - length/2)
